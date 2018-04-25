@@ -27042,7 +27042,7 @@ node {
 node {
   name: "linear/Reshape"
   op: "Reshape"
-  input: "linear/linear_model/price_per_share/weights/part_0/read"
+  input: "linear/linear_model/month3_return/weights/part_0/read"
   input: "linear/Reshape/shape"
   attr {
     key: "T"
@@ -27108,7 +27108,7 @@ node {
 node {
   name: "linear/Reshape_1"
   op: "Reshape"
-  input: "linear/linear_model/tx_year/weights/part_0/read"
+  input: "linear/linear_model/overallotment/weights/part_0/read"
   input: "linear/Reshape_1/shape"
   attr {
     key: "T"
@@ -27174,7 +27174,7 @@ node {
 node {
   name: "linear/Reshape_2"
   op: "Reshape"
-  input: "linear/linear_model/day1_return/weights/part_0/read"
+  input: "linear/linear_model/month1_return/weights/part_0/read"
   input: "linear/Reshape_2/shape"
   attr {
     key: "T"
@@ -27240,7 +27240,7 @@ node {
 node {
   name: "linear/Reshape_3"
   op: "Reshape"
-  input: "linear/linear_model/offer_year/weights/part_0/read"
+  input: "linear/linear_model/country/weights/part_0/read"
   input: "linear/Reshape_3/shape"
   attr {
     key: "T"
@@ -27260,7 +27260,7 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 46
           }
         }
       }
@@ -27306,7 +27306,7 @@ node {
 node {
   name: "linear/Reshape_4"
   op: "Reshape"
-  input: "linear/linear_model/offer_month/weights/part_0/read"
+  input: "linear/linear_model/industry/weights/part_0/read"
   input: "linear/Reshape_4/shape"
   attr {
     key: "T"
@@ -27326,7 +27326,7 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 147
           }
         }
       }
@@ -27372,7 +27372,7 @@ node {
 node {
   name: "linear/Reshape_5"
   op: "Reshape"
-  input: "linear/linear_model/overallotment/weights/part_0/read"
+  input: "linear/linear_model/exchange/weights/part_0/read"
   input: "linear/Reshape_5/shape"
   attr {
     key: "T"
@@ -27392,7 +27392,7 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 26
           }
         }
       }
@@ -27438,7 +27438,7 @@ node {
 node {
   name: "linear/Reshape_6"
   op: "Reshape"
-  input: "linear/linear_model/num_shares/weights/part_0/read"
+  input: "linear/linear_model/offer_day/weights/part_0/read"
   input: "linear/Reshape_6/shape"
   attr {
     key: "T"
@@ -27504,7 +27504,7 @@ node {
 node {
   name: "linear/Reshape_7"
   op: "Reshape"
-  input: "linear/linear_model/tx_day/weights/part_0/read"
+  input: "linear/linear_model/percent_to_company/weights/part_0/read"
   input: "linear/Reshape_7/shape"
   attr {
     key: "T"
@@ -27570,7 +27570,7 @@ node {
 node {
   name: "linear/Reshape_8"
   op: "Reshape"
-  input: "linear/linear_model/tx_value/weights/part_0/read"
+  input: "linear/linear_model/offer_month/weights/part_0/read"
   input: "linear/Reshape_8/shape"
   attr {
     key: "T"
@@ -27636,7 +27636,7 @@ node {
 node {
   name: "linear/Reshape_9"
   op: "Reshape"
-  input: "linear/linear_model/percent_to_shareholders/weights/part_0/read"
+  input: "linear/linear_model/country_X_industry/weights/part_0/read"
   input: "linear/Reshape_9/shape"
   attr {
     key: "T"
@@ -27656,7 +27656,7 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 1000
           }
         }
       }
@@ -27702,7 +27702,7 @@ node {
 node {
   name: "linear/Reshape_10"
   op: "Reshape"
-  input: "linear/linear_model/exchange/weights/part_0/read"
+  input: "linear/linear_model/tx_year/weights/part_0/read"
   input: "linear/Reshape_10/shape"
   attr {
     key: "T"
@@ -27722,7 +27722,7 @@ node {
       list {
         shape {
           dim {
-            size: 26
+            size: 1
           }
         }
       }
@@ -27768,7 +27768,7 @@ node {
 node {
   name: "linear/Reshape_11"
   op: "Reshape"
-  input: "linear/linear_model/month3_return/weights/part_0/read"
+  input: "linear/linear_model/days_between/weights/part_0/read"
   input: "linear/Reshape_11/shape"
   attr {
     key: "T"
@@ -27834,7 +27834,7 @@ node {
 node {
   name: "linear/Reshape_12"
   op: "Reshape"
-  input: "linear/linear_model/percent_to_company/weights/part_0/read"
+  input: "linear/linear_model/tx_value/weights/part_0/read"
   input: "linear/Reshape_12/shape"
   attr {
     key: "T"
@@ -27900,7 +27900,7 @@ node {
 node {
   name: "linear/Reshape_13"
   op: "Reshape"
-  input: "linear/linear_model/country_X_exchange/weights/part_0/read"
+  input: "linear/linear_model/day1_return/weights/part_0/read"
   input: "linear/Reshape_13/shape"
   attr {
     key: "T"
@@ -27920,7 +27920,7 @@ node {
       list {
         shape {
           dim {
-            size: 1000
+            size: 1
           }
         }
       }
@@ -27966,7 +27966,7 @@ node {
 node {
   name: "linear/Reshape_14"
   op: "Reshape"
-  input: "linear/linear_model/industry/weights/part_0/read"
+  input: "linear/linear_model/tx_day/weights/part_0/read"
   input: "linear/Reshape_14/shape"
   attr {
     key: "T"
@@ -27986,7 +27986,7 @@ node {
       list {
         shape {
           dim {
-            size: 147
+            size: 1
           }
         }
       }
@@ -28032,7 +28032,7 @@ node {
 node {
   name: "linear/Reshape_15"
   op: "Reshape"
-  input: "linear/linear_model/days_between/weights/part_0/read"
+  input: "linear/linear_model/tx_month/weights/part_0/read"
   input: "linear/Reshape_15/shape"
   attr {
     key: "T"
@@ -28098,7 +28098,7 @@ node {
 node {
   name: "linear/Reshape_16"
   op: "Reshape"
-  input: "linear/linear_model/tx_month/weights/part_0/read"
+  input: "linear/linear_model/country_X_exchange/weights/part_0/read"
   input: "linear/Reshape_16/shape"
   attr {
     key: "T"
@@ -28118,7 +28118,7 @@ node {
       list {
         shape {
           dim {
-            size: 1
+            size: 1000
           }
         }
       }
@@ -28164,7 +28164,7 @@ node {
 node {
   name: "linear/Reshape_17"
   op: "Reshape"
-  input: "linear/linear_model/country/weights/part_0/read"
+  input: "linear/linear_model/price_per_share/weights/part_0/read"
   input: "linear/Reshape_17/shape"
   attr {
     key: "T"
@@ -28184,7 +28184,7 @@ node {
       list {
         shape {
           dim {
-            size: 46
+            size: 1
           }
         }
       }
@@ -28230,7 +28230,7 @@ node {
 node {
   name: "linear/Reshape_18"
   op: "Reshape"
-  input: "linear/linear_model/month1_return/weights/part_0/read"
+  input: "linear/linear_model/offer_year/weights/part_0/read"
   input: "linear/Reshape_18/shape"
   attr {
     key: "T"
@@ -28296,7 +28296,7 @@ node {
 node {
   name: "linear/Reshape_19"
   op: "Reshape"
-  input: "linear/linear_model/country_X_industry/weights/part_0/read"
+  input: "linear/linear_model/num_shares/weights/part_0/read"
   input: "linear/Reshape_19/shape"
   attr {
     key: "T"
@@ -28316,7 +28316,7 @@ node {
       list {
         shape {
           dim {
-            size: 1000
+            size: 1
           }
         }
       }
@@ -28362,7 +28362,7 @@ node {
 node {
   name: "linear/Reshape_20"
   op: "Reshape"
-  input: "linear/linear_model/offer_day/weights/part_0/read"
+  input: "linear/linear_model/percent_to_shareholders/weights/part_0/read"
   input: "linear/Reshape_20/shape"
   attr {
     key: "T"
@@ -61505,7 +61505,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "_temp_52728cf042964e13945c09cc856d5768/part"
+        string_val: "_temp_a508f384ee52412eb65258642cea8d05/part"
       }
     }
   }
