@@ -225,6 +225,18 @@ def input_fn(data_file, num_epochs, shuffle, batch_size):
   dataset = dataset.batch(batch_size)
   return dataset
 
+def export_model(model, model_type, export_dir):
+    
+    wide_columns, deep_columns = build_model_columns()
+    if model_type == 'wide':
+        columns=wide_columns
+    elif model_type == 'deep':
+        columns=deep_columns
+    else:
+        columns = wide_columns + deep_columns
+    feature_spec = tf.feature_column.make_parse_example_spec(columns)
+    serving_input_fun = tf.estimator.export.build_parsing_serving_input_receiver_fn(feature_spec)
+    model.export_savedmodel(export_dir, serving_input_fun)
 
 def main(argv):
   parser = WideDeepArgParser()
@@ -266,7 +278,8 @@ def main(argv):
     if model_helpers.past_stop_threshold(
         flags.stop_threshold, results['accuracy']):
       break
-
+  export_dir = '/tmp/' + str(flags.model_type)
+  export_model(model, flags.model_type, '/tmp/wide_deep')
 
 class WideDeepArgParser(argparse.ArgumentParser):
   """Argument parser for running the wide deep model."""
