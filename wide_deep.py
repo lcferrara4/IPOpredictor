@@ -21,13 +21,26 @@ import argparse
 import os
 import shutil
 import sys
-
+import matplotlib.pyplot as plt
 import tensorflow as tf  # pylint: disable=g-bad-import-order
 
 from official.utils.arg_parsers import parsers
 from official.utils.logs import hooks_helper
 from official.utils.misc import model_helpers
 
+def plot(results, model_type, epoch_iter):
+  epoch_list = []
+  print(epoch_iter)
+  for i in range(epoch_iter):
+    epoch_list.append(i)
+  for key in results.keys():
+    if key == 'accuracy' or key == 'auc_precision_recall' or key == 'prediction/mean':
+      plt.plot(epoch_list, results[key])
+      plt.title('Graph of ' + str(key) + ' for ' +str(model_type))
+      plt.xlabel('epoch')
+      plt.ylabel(key)
+      plt.show()
+        
 
 _CSV_COLUMNS = [
     'tx_month', 'tx_day', 'tx_year', 'exchange', 'tx_value', 'price_per_share',
@@ -48,7 +61,8 @@ _NUM_EXAMPLES = {
 LOSS_PREFIX = {'wide': 'linear/', 'deep': 'dnn/'}
 
 
-def build_model_columns():
+
+def build_model_columns(export_flag):
   """Builds a set of wide and deep feature columns."""
   # Continuous columns
   tx_month = tf.feature_column.numeric_column('tx_month')
@@ -164,13 +178,15 @@ def build_model_columns():
       # To show an example of embedding
       #tf.feature_column.embedding_column(occupation, dimension=8),
   ]
-
-  return wide_columns, deep_columns
+  if export_flag:
+      return crossed_columns + deep_columns
+  else:
+      return wide_columns, deep_columns
 
 
 def build_estimator(model_dir, model_type):
   """Build an estimator appropriate for the given model type."""
-  wide_columns, deep_columns = build_model_columns()
+  wide_columns, deep_columns = build_model_columns(False)
   hidden_units = [100, 75, 50, 25]
 
   # Create a tf.estimator.RunConfig to ensure the model is run on CPU, which
@@ -226,17 +242,18 @@ def input_fn(data_file, num_epochs, shuffle, batch_size):
   return dataset
 
 def export_model(model, model_type, export_dir):
-    
-    wide_columns, deep_columns = build_model_columns()
-    if model_type == 'wide':
-        columns=wide_columns
-    elif model_type == 'deep':
-        columns=deep_columns
-    else:
-        columns = wide_columns + deep_columns
-    feature_spec = tf.feature_column.make_parse_example_spec(columns)
+    feature_columns = build_model_columns(True)
+    #wide_columns, deep_columns = build_model_columns()
+    #if model_type == 'wide':
+    #    columns=wide_columns
+    #elif model_type == 'deep':
+    ##    columns=deep_columns
+    #else:
+    #    columns = wide_columns + deep_columns
+    feature_spec = tf.feature_column.make_parse_example_spec(feature_columns)
     serving_input_fun = tf.estimator.export.build_parsing_serving_input_receiver_fn(feature_spec)
-    model.export_savedmodel(export_dir, serving_input_fun)
+    servable_model_path = model.export_savedmodel('/tmp/wide_deep', serving_input_fun)
+    servable_model_path
 
 def main(argv):
   parser = WideDeepArgParser()
@@ -263,23 +280,33 @@ def main(argv):
       tensors_to_log={'average_loss': loss_prefix + 'head/truediv',
                       'loss': loss_prefix + 'head/weighted_loss/Sum'})
 
+  with tf.Session() as sess:
   # Train and evaluate the model every `flags.epochs_between_evals` epochs.
-  for n in range(flags.train_epochs // flags.epochs_between_evals):
-    model.train(input_fn=train_input_fn, hooks=train_hooks)
-    results = model.evaluate(input_fn=eval_input_fn)
+    output = {}  
+    epoch_count = 0
+    for n in range(flags.train_epochs // flags.epochs_between_evals):
+      model.train(input_fn=train_input_fn, hooks=train_hooks)
+      results = model.evaluate(input_fn=eval_input_fn)
 
     # Display evaluation metrics
-    print('Results at epoch', (n + 1) * flags.epochs_between_evals)
-    print('-' * 60)
+      print('Results at epoch', (n + 1) * flags.epochs_between_evals)
+      print('-' * 60)
 
-    for key in sorted(results):
-      print('%s: %s' % (key, results[key]))
+      for key in sorted(results):
+          if key in output.keys():
+              output[key].append(results[key])
+          else:
+              output[key] = [results[key]]
+          print('%s: %s' % (key, results[key]))
+      epoch_count+=1
+      if model_helpers.past_stop_threshold(flags.stop_threshold, results['accuracy']):
+        break
+        
 
-    if model_helpers.past_stop_threshold(
-        flags.stop_threshold, results['accuracy']):
-      break
-  export_dir = '/tmp/' + str(flags.model_type)
   export_model(model, flags.model_type, '/tmp/wide_deep')
+  meta_graph_def = tf.train.export_meta_graph(filename='/tmp/wide_deep/my-model.meta')
+  
+  plot(output, flags.model_type, epoch_count)
 
 class WideDeepArgParser(argparse.ArgumentParser):
   """Argument parser for running the wide deep model."""
